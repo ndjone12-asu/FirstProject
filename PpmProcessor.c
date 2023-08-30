@@ -24,7 +24,7 @@ void writePPMHeader(FILE* file, struct PPM_Header* header){
 }
 void makePPMHeader(struct PPM_Header* header, int width, int height);
 void readPixelsPPM(FILE* file, struct Pixel** pArr, int width, int height){
-    for(int i=0; i<height; i++) {
+    for(int i=height-1; i>= 0; --i) {
         pArr[i] = malloc(width * sizeof(struct Pixel));
         for (int j = 0; j < width; j++) {
             fread(&pArr[i][j].r, sizeof(char), 1, file);
@@ -34,7 +34,7 @@ void readPixelsPPM(FILE* file, struct Pixel** pArr, int width, int height){
     }
 }
 void writePixelsPPM(FILE* file, struct Pixel** pArr, int width, int height){
-    for(int i=0; i<height; i++) {
+    for(int i=height-1; i>= 0; --i) {
         for (int j = 0; j < width; j++) {
             fwrite(&pArr[i][j].r, sizeof(char), 1, file);
             fwrite(&pArr[i][j].g, sizeof(char), 1, file);

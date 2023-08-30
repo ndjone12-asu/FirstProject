@@ -47,8 +47,27 @@ void writeDIBHeader(FILE* file, struct DIB_Header* header){
     fwrite(&header->numColors, sizeof(int), 1, file);
     fwrite(&header->colorCount, sizeof(int), 1, file);
 }
-void makeBMPHeader(struct BMP_Header* header, int width, int height);
-void makeDIBHeader(struct DIB_Header* header, int width, int height);
+void makeBMPHeader(struct BMP_Header* header, int width, int height){
+    header->signature[0] = 'B';
+    header->signature[1] = 'M';
+    header->size = (width * height * 3) + sizeof(struct BMP_Header) - 2  + sizeof(struct DIB_Header);
+    header->reserved1 = 0;
+    header->reserved2 = 0;
+    header->offset_pixel_array = 54;
+}
+void makeDIBHeader(struct DIB_Header* header, int width, int height){
+    header->DIBsize = sizeof(struct DIB_Header);
+    header->width = width;
+    header->height = height;
+    header->planes = 1;
+    header->bitsPerPixel = sizeof(struct Pixel) * 8;
+    header->compression = 0;
+    header->imageSize = height * width * sizeof(struct Pixel);
+    header->xPPM = 3780;
+    header->yPPM = 3780;
+    header->numColors = 0;
+    header->colorCount = 0;
+}
 void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
     int padding = (4 - (width * sizeof(struct Pixel))%4)%4;
     for(int i=0; i<height; i++) {
