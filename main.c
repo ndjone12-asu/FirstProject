@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
     char* fileExtIn;
     char* fileNameOut = "default";
     char* fileExtOut = ".ppm";
+    char* intParser;
     int rshift, gshift, bshift;
     int c = 0;
     opterr = 0;
@@ -32,15 +33,39 @@ int main(int argc, char **argv) {
                 fileExtOut = optarg;
                 break;
             case 'r':
-                rshift = atoi(optarg);
+                rshift = strtol(optarg, &intParser, 10);
+                if(intParser != optarg && *intParser == '\0'){
+                    rshift = (int)rshift;
+                }
+                else{
+                    printf("Not a valid integer for r color shift.");
+                    return 1;
+                }
                 break;
 
             case 'g':
-                gshift = atoi(optarg);
+                gshift = strtol(optarg, &intParser, 10);
+                if(intParser != optarg && *intParser == '\0'){
+                    gshift = (int)gshift;
+                }
+                else{
+                    printf("Not a valid integer for g color shift.");
+                    return 1;
+                }
                 break;
             case 'b':
-                bshift = atoi(optarg);
+                bshift = strtol(optarg, &intParser, 10);
+                if(intParser != optarg && *intParser == '\0'){
+                    bshift = (int)bshift;
+                }
+                else{
+                    printf("Not a valid integer for b color shift.");
+                    return 1;
+                }
                 break;
+            case '?':
+                fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+                return 1;
             default:
                 abort();
         }
@@ -49,15 +74,15 @@ int main(int argc, char **argv) {
     fileExtIn = strrchr(fileNameIn, '.');
     if(access(fileNameIn, F_OK) != 0){
         printf("Error: input file does not exist or is inaccessible.");
-        return 999;
+        return 1;
     }
     if(strcmp(fileExtIn, ".ppm") != 0 && strcmp(fileExtIn, ".bmp") != 0){
         printf("Error: Improper input file extension. Must be .bmp or .ppm.");
-        return 999;
+        return 1;
     }
     if(strcmp(fileExtOut, ".ppm") != 0 && strcmp(fileExtOut, ".bmp") != 0){
         printf("Error: Improper output file extension. Must be .bmp or .ppm.");
-        return 999;
+        return 1;
     }
 
     char* fullFileIn = malloc(strlen(fileNameIn)+1);
