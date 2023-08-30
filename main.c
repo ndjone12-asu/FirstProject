@@ -21,7 +21,6 @@ int main(int argc, char **argv) {
     int rshift, gshift, bshift;
     int c = 0;
     opterr = 0;
-    int index;
 
     while((c = getopt(argc, argv, "o:r:g:b:t:")) != -1){
         switch(c)
@@ -46,6 +45,7 @@ int main(int argc, char **argv) {
                 abort();
         }
     }
+    printf("rshift: %d", rshift);
     fileNameIn = argv[optind];
     fileExtIn = strrchr(fileNameIn, '.');
 
