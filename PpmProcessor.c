@@ -22,7 +22,14 @@ void writePPMHeader(FILE* file, struct PPM_Header* header){
     fprintf(file, "%d", header->maxval);
     fprintf(file, "%c", '\n');
 }
-void makePPMHeader(struct PPM_Header* header, int width, int height);
+void makePPMHeader(struct PPM_Header* header, int width, int height) {
+    header->magicNumber[0] = 'P';
+    header->magicNumber[1] = '6';
+    header->width = width;
+    header->height = height;
+    header->maxval = 255;
+    //header->newLine = '\n';
+}
 void readPixelsPPM(FILE* file, struct Pixel** pArr, int width, int height){
     for(int i=height-1; i>= 0; --i) {
         pArr[i] = malloc(width * sizeof(struct Pixel));

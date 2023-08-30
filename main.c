@@ -14,10 +14,10 @@ int main() {
     char* readMode = "rb";
     char* writeMode = "wb";
 
-    char* fileNameIn = "nehoymenory-clamped";
-    char* fileExtIn = ".ppm";
-//    char* fileNameIn = "ttt-1";
-//    char* fileExtIn = ".bmp";
+//    char* fileNameIn = "nehoymenory-clamped";
+//    char* fileExtIn = ".ppm";
+    char* fileNameIn = "wb-1";
+    char* fileExtIn = ".bmp";
 
     char* fullFileIn = malloc(strlen(fileNameIn) + strlen(fileExtIn) +1);
     strcpy(fullFileIn, fileNameIn);
@@ -50,7 +50,7 @@ int main() {
 
         printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
-        colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, 0, 0, 0);
+        colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, 100, 0, 0);
         printf("pixelshift: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
 
@@ -64,18 +64,9 @@ int main() {
         else if(strcmp(fileExtOut, ".bmp") == 0){
             writeMode = "wb";
             FILE* file_output = fopen(fullFileOut, writeMode);
+
             makeBMPHeader(bmpHeader, ppmHeader->width, ppmHeader->height);
-            //printf("%d", sizeof(bmpHeader));
             makeDIBHeader(dibHeader, ppmHeader->width, ppmHeader->height);
-//
-//            printf("size of BMP signature: %d\n", sizeof(bmpHeader->signature));
-//            printf("size of BMP size: %d\n", sizeof(bmpHeader->size));
-//            printf("size of BMP reserved1: %d\n", sizeof(bmpHeader->reserved1));
-//            printf("size of BMP reserved2: %d\n", sizeof(bmpHeader->reserved2));
-//            printf("size of BMP offset_pixel_array: %d\n", sizeof(bmpHeader->offset_pixel_array));
-//            printf("size of BMP header struct: %d\n", sizeof(struct BMP_Header));
-//
-//            printf("size of DIB header: %d\n", sizeof(struct DIB_Header));
 
             writeBMPHeader(file_output, bmpHeader);
             writeDIBHeader(file_output, dibHeader);
@@ -87,8 +78,10 @@ int main() {
     else if(strcmp(fileExtIn, ".bmp")==0){
         readMode = "rb";
         FILE* file_input = fopen(fullFileIn, readMode);
+
         readBMPHeader(file_input, bmpHeader);
         readDIBHeader(file_input, dibHeader);
+
         struct Pixel  **ptr = malloc(dibHeader->height * sizeof(struct Pixel*));
         readPixelsBMP(file_input, ptr, dibHeader->width, dibHeader->height);
         fclose(file_input);
@@ -123,6 +116,14 @@ int main() {
             writeBMPHeader(file_output, bmpHeader);
             writeDIBHeader(file_output, dibHeader);
             writePixelsBMP(file_output, ptr, dibHeader->width, dibHeader->height);
+            fclose(file_output);
+        }
+        else if(strcmp(fileExtOut, ".ppm") == 0){
+            writeMode = "w";
+            FILE* file_output = fopen(fullFileOut, writeMode);
+            makePPMHeader(ppmHeader, dibHeader->width, dibHeader->height);
+            writePPMHeader(file_output, ppmHeader);
+            writePixelsPPM(file_output, ptr, ppmHeader->width, ppmHeader->height);
             fclose(file_output);
         }
     }
