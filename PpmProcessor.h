@@ -9,8 +9,7 @@ struct PPM_Header{
     int width;
     int height;
     int maxval;
-
-
+    char newLine;
 };
 
 /**

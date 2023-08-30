@@ -70,7 +70,7 @@ int main() {
 //    printf("pixel: B=%d, G=%d, R=%d\n", ptr[1][0].b, ptr[1][0].g, ptr[1][0].r);
 //    printf("pixel: B=%d, G=%d, R=%d\n", ptr[1][1].b, ptr[1][1].g, ptr[1][1].r);
 
-//    printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
+    printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 //    printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][1].b, ptrPpm[0][1].g, ptrPpm[0][1].r);
 //    printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[1][0].b, ptrPpm[1][0].g, ptrPpm[1][0].r);
 //    printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[1][1].b, ptrPpm[1][1].g, ptrPpm[1][1].r);
@@ -78,8 +78,8 @@ int main() {
 
     fclose(file_input);
 
-//    colorShiftPixels(ptr, dibHeader->width, dibHeader->height, 0, 0, 0);
-//    printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
+    colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, 0, 0, 0);
+    printf("pixelshift: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 //    printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[0][1].b, ptr[0][1].g, ptr[0][1].r);
 //    printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[1][0].b, ptr[1][0].g, ptr[1][0].r);
 //    printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[1][1].b, ptr[1][1].g, ptr[1][1].r);

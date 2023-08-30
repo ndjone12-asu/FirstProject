@@ -10,6 +10,7 @@ void readPPMHeader(FILE* file, struct PPM_Header* header){
     fscanf(file, "%d", &header->width);
     fscanf(file, "%d", &header->height);
     fscanf(file, "%d", &header->maxval);
+    fscanf(file, "%c", &header->newLine);
 }
 void writePPMHeader(FILE* file, struct PPM_Header* header){
     fprintf(file, "%s", header->magicNumber);
@@ -19,7 +20,7 @@ void writePPMHeader(FILE* file, struct PPM_Header* header){
     fprintf(file, "%d", header->height);
     fprintf(file, "%s", "\n");
     fprintf(file, "%d", header->maxval);
-    //fprintf(file, "%s", "\n");
+    fprintf(file, "%c", '\n');
 }
 void makePPMHeader(struct PPM_Header* header, int width, int height);
 void readPixelsPPM(FILE* file, struct Pixel** pArr, int width, int height){
