@@ -45,9 +45,20 @@ int main(int argc, char **argv) {
                 abort();
         }
     }
-    printf("rshift: %d", rshift);
     fileNameIn = argv[optind];
     fileExtIn = strrchr(fileNameIn, '.');
+    if(access(fileNameIn, F_OK) != 0){
+        printf("Error: input file does not exist or is inaccessible.");
+        return 999;
+    }
+    if(strcmp(fileExtIn, ".ppm") != 0 && strcmp(fileExtIn, ".bmp") != 0){
+        printf("Error: Improper input file extension. Must be .bmp or .ppm.");
+        return 999;
+    }
+    if(strcmp(fileExtOut, ".ppm") != 0 && strcmp(fileExtOut, ".bmp") != 0){
+        printf("Error: Improper output file extension. Must be .bmp or .ppm.");
+        return 999;
+    }
 
     char* fullFileIn = malloc(strlen(fileNameIn)+1);
     strcpy(fullFileIn, fileNameIn);
