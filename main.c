@@ -12,15 +12,16 @@ typedef struct PPM_Header PPM_Header;
 typedef struct Pixel Pixel;
 
 int main(int argc, char **argv) {
-    char* readMode = "rb";
-    char* writeMode = "wb";
-    char* fileNameIn = "wb-1";
-    char* fileExtIn = ".bmp";
+    char* readMode;
+    char* writeMode;
+    char* fileNameIn = "";
+    char* fileExtIn;
     char* fileNameOut = "default";
     char* fileExtOut = ".ppm";
     int rshift, gshift, bshift;
     int c = 0;
     opterr = 0;
+    int index;
 
     while((c = getopt(argc, argv, "o:r:g:b:t:")) != -1){
         switch(c)
@@ -45,12 +46,11 @@ int main(int argc, char **argv) {
                 abort();
         }
     }
+    fileNameIn = argv[optind];
+    fileExtIn = strrchr(fileNameIn, '.');
 
-
-    char* fullFileIn = malloc(strlen(fileNameIn) + strlen(fileExtIn) +1);
+    char* fullFileIn = malloc(strlen(fileNameIn)+1);
     strcpy(fullFileIn, fileNameIn);
-    strcat(fullFileIn, fileExtIn);
-
 
     char* fullFileOut = malloc(strlen(fileNameOut) + strlen(fileExtOut) +1);
     strcpy(fullFileOut, fileNameOut);
@@ -69,16 +69,17 @@ int main(int argc, char **argv) {
         struct Pixel **ptrPpm = malloc(ppmHeader->height * sizeof(struct Pixel *));
         readPixelsPPM(file_input, ptrPpm, ppmHeader->width, ppmHeader->height);
         fclose(file_input);
-
-        printf("magic number: %c%c\n", ppmHeader->magicNumber[0], ppmHeader->magicNumber[1]);
-        printf("width: %d\n", ppmHeader->width);
-        printf("height: %d\n", ppmHeader->height);
-        printf("maxval: %d\n", ppmHeader->maxval);
-
-        printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
+//
+//        printf("magic number: %c%c\n", ppmHeader->magicNumber[0], ppmHeader->magicNumber[1]);
+//        printf("width: %d\n", ppmHeader->width);
+//        printf("height: %d\n", ppmHeader->height);
+//        printf("maxval: %d\n", ppmHeader->maxval);
+//
+//        printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
         colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, rshift, gshift, bshift);
-        printf("pixelshift: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
+
+//        printf("pixelshift: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
 
         if (strcmp(fileExtOut, ".ppm") == 0) {
@@ -113,28 +114,29 @@ int main(int argc, char **argv) {
         readPixelsBMP(file_input, ptr, dibHeader->width, dibHeader->height);
         fclose(file_input);
 
-        printf("signature: %c%c\n", bmpHeader->signature[0], bmpHeader->signature[1]);
-        printf("size: %d\n", bmpHeader->size);
-        printf("reserved1: %d\n", bmpHeader->reserved1);
-        printf("reserved2: %d\n", bmpHeader->reserved2);
-        printf("offset_pixel_array: %d\n", bmpHeader->offset_pixel_array);
+//        printf("signature: %c%c\n", bmpHeader->signature[0], bmpHeader->signature[1]);
+//        printf("size: %d\n", bmpHeader->size);
+//        printf("reserved1: %d\n", bmpHeader->reserved1);
+//        printf("reserved2: %d\n", bmpHeader->reserved2);
+//        printf("offset_pixel_array: %d\n", bmpHeader->offset_pixel_array);
+//
+//        printf("DIBsize: %d\n", dibHeader->DIBsize);
+//        printf("Width: %d\n", dibHeader->width);
+//        printf("Height: %d\n", dibHeader->height);
+//        printf("planes: %d\n", dibHeader->planes);
+//        printf("Bits per Pixel: %d\n", dibHeader->bitsPerPixel);
+//        printf("Compression: %d\n", dibHeader->compression);
+//        printf("imageSize: %d\n", dibHeader->imageSize);
+//        printf("X Pixels Per Meter: %d\n", dibHeader->xPPM);
+//        printf("Y Pixels Per Meter: %d\n", dibHeader->yPPM);
+//        printf("Colors in Color Table: %d\n", dibHeader->numColors);
+//        printf("Important Color Count: %d\n", dibHeader->colorCount);
+//
+//        printf("pixel: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
 
-        printf("DIBsize: %d\n", dibHeader->DIBsize);
-        printf("Width: %d\n", dibHeader->width);
-        printf("Height: %d\n", dibHeader->height);
-        printf("planes: %d\n", dibHeader->planes);
-        printf("Bits per Pixel: %d\n", dibHeader->bitsPerPixel);
-        printf("Compression: %d\n", dibHeader->compression);
-        printf("imageSize: %d\n", dibHeader->imageSize);
-        printf("X Pixels Per Meter: %d\n", dibHeader->xPPM);
-        printf("Y Pixels Per Meter: %d\n", dibHeader->yPPM);
-        printf("Colors in Color Table: %d\n", dibHeader->numColors);
-        printf("Important Color Count: %d\n", dibHeader->colorCount);
-
-        printf("pixel: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
         colorShiftPixels(ptr, dibHeader->width, dibHeader->height, rshift, gshift, bshift);
 
-        printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
+//        printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
 
         if(strcmp(fileExtOut, ".bmp") ==0){
             writeMode = "wb";
@@ -154,7 +156,6 @@ int main(int argc, char **argv) {
             fclose(file_output);
         }
     }
-
 
     free(fullFileIn);
     free(fullFileOut);
