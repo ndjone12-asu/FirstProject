@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     char* fileNameIn = "";
     char* fileExtIn;
     char* fileNameOut = "default";
-    char* fileExtOut = ".ppm";
+    char* fileExtOut = ".bmp";
     char* intParser;
     int rshift, gshift, bshift;
     int c = 0;
