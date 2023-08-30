@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
             case 'r':
                 rshift = atoi(optarg);
                 break;
+
             case 'g':
                 gshift = atoi(optarg);
                 break;
