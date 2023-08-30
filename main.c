@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "BmpProcessor.h"
 #include "PpmProcessor.h"
 #include "PixelProcessor.h"
@@ -10,21 +11,46 @@ typedef struct DIB_Header DIB_Header;
 typedef struct PPM_Header PPM_Header;
 typedef struct Pixel Pixel;
 
-int main() {
+int main(int argc, char **argv) {
     char* readMode = "rb";
     char* writeMode = "wb";
-
-//    char* fileNameIn = "nehoymenory-clamped";
-//    char* fileExtIn = ".ppm";
     char* fileNameIn = "wb-1";
     char* fileExtIn = ".bmp";
+    char* fileNameOut = "default";
+    char* fileExtOut = ".ppm";
+    int rshift, gshift, bshift;
+    int c = 0;
+    opterr = 0;
+
+    while((c = getopt(argc, argv, "o:r:g:b:t:")) != -1){
+        switch(c)
+        {
+            case 'o':
+                fileNameOut = optarg;
+                break;
+            case 't':
+                fileExtOut = optarg;
+                break;
+            case 'r':
+                rshift = atoi(optarg);
+                break;
+            case 'g':
+                gshift = atoi(optarg);
+                break;
+            case 'b':
+                bshift = atoi(optarg);
+                break;
+            default:
+                abort();
+        }
+    }
+
 
     char* fullFileIn = malloc(strlen(fileNameIn) + strlen(fileExtIn) +1);
     strcpy(fullFileIn, fileNameIn);
     strcat(fullFileIn, fileExtIn);
 
-    char* fileNameOut = "default";
-    char* fileExtOut = ".ppm";
+
     char* fullFileOut = malloc(strlen(fileNameOut) + strlen(fileExtOut) +1);
     strcpy(fullFileOut, fileNameOut);
     strcat(fullFileOut, fileExtOut);
@@ -50,7 +76,7 @@ int main() {
 
         printf("pixel: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
-        colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, 100, 0, 0);
+        colorShiftPixels(ptrPpm, ppmHeader->width, ppmHeader->height, rshift, gshift, bshift);
         printf("pixelshift: B=%d, G=%d, R=%d\n", ptrPpm[0][0].b, ptrPpm[0][0].g, ptrPpm[0][0].r);
 
 
@@ -105,7 +131,7 @@ int main() {
         printf("Important Color Count: %d\n", dibHeader->colorCount);
 
         printf("pixel: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
-        colorShiftPixels(ptr, dibHeader->width, dibHeader->height, 0, 0, 0);
+        colorShiftPixels(ptr, dibHeader->width, dibHeader->height, rshift, gshift, bshift);
 
         printf("pixelshift: B=%d, G=%d, R=%d\n", ptr[0][0].b, ptr[0][0].g, ptr[0][0].r);
 
