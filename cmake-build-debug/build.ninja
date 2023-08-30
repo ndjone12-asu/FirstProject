@@ -49,8 +49,8 @@ cmake_ninja_workdir = /home/vboxuser/CLionProjects/homework3/cmake-build-debug/
 
 build cmake_object_order_depends_target_homework3: phony || CMakeFiles/homework3.dir
 
-build CMakeFiles/homework3.dir/main.c.o: C_COMPILER__homework3_unscanned_Debug /home/vboxuser/CLionProjects/homework3/main.c || cmake_object_order_depends_target_homework3
-  DEP_FILE = CMakeFiles/homework3.dir/main.c.o.d
+build CMakeFiles/homework3.dir/JonesImageProcessor.c.o: C_COMPILER__homework3_unscanned_Debug /home/vboxuser/CLionProjects/homework3/JonesImageProcessor.c || cmake_object_order_depends_target_homework3
+  DEP_FILE = CMakeFiles/homework3.dir/JonesImageProcessor.c.o.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/homework3.dir
   OBJECT_FILE_DIR = CMakeFiles/homework3.dir
@@ -81,7 +81,7 @@ build CMakeFiles/homework3.dir/PpmProcessor.c.o: C_COMPILER__homework3_unscanned
 #############################################
 # Link the executable homework3
 
-build homework3: C_EXECUTABLE_LINKER__homework3_Debug CMakeFiles/homework3.dir/main.c.o CMakeFiles/homework3.dir/BmpProcessor.c.o CMakeFiles/homework3.dir/PixelProcessor.c.o CMakeFiles/homework3.dir/PpmProcessor.c.o
+build homework3: C_EXECUTABLE_LINKER__homework3_Debug CMakeFiles/homework3.dir/JonesImageProcessor.c.o CMakeFiles/homework3.dir/BmpProcessor.c.o CMakeFiles/homework3.dir/PixelProcessor.c.o CMakeFiles/homework3.dir/PpmProcessor.c.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/homework3.dir
   POST_BUILD = :

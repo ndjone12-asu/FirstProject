@@ -6,7 +6,8 @@
 struct PPM_Header;
 
 void readPPMHeader(FILE* file, struct PPM_Header* header){
-    fscanf(file, "%9s", &header->magicNumber);
+    fscanf(file, "%c", &header->magicNumber[0]);
+    fscanf(file, "%c", &header->magicNumber[1]);
     fscanf(file, "%d", &header->width);
     fscanf(file, "%d", &header->height);
     fscanf(file, "%d", &header->maxval);
@@ -25,6 +26,7 @@ void writePPMHeader(FILE* file, struct PPM_Header* header){
 void makePPMHeader(struct PPM_Header* header, int width, int height) {
     header->magicNumber[0] = 'P';
     header->magicNumber[1] = '6';
+//    header->magicNumber = "PM";
     header->width = width;
     header->height = height;
     header->maxval = 255;

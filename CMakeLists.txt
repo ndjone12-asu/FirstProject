@@ -3,7 +3,7 @@ project(homework3 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(homework3 main.c
+add_executable(homework3 JonesImageProcessor.c
         BmpProcessor.c
         PixelProcessor.c
         PpmProcessor.c)
