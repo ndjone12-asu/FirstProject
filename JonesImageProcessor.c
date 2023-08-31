@@ -1,3 +1,19 @@
+/**
+* This c program reads an image file with a .bmp or .ppm file extension. The program will parse the header of the file
+ * and then read in 24 bit pixels into an array. The program takes user inputs to name the output file and extension
+ * as well as values for rgb color shifting of the pixels. The program will also convert between .ppm and .bmp and
+ * write the appropriate header.
+*
+* Completion time: 24 hours
+*
+* @author Nicholas Jones
+* @version 30Aug23
+*
+*/
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
